@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who Said It? - Trump vs Pauline Hanson</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,6 +20,17 @@
         <!-- Start Screen -->
         <div id="startScreen" class="screen active">
             <div class="start-content">
+                <div class="start-images">
+                    <div class="start-image-left">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnOaBKMdg6IH2OELbGUSNWYGWjpOpqiFb8UorQUAv_3Q&s=10" alt="Donald Trump">
+                        <h3>Donald Trump</h3>
+                    </div>
+                    <div class="vs-text">VS</div>
+                    <div class="start-image-right">
+                        <img src="https://static.ffx.io/images/$zoom_0.1206%2C$multiply_4%2C$ratio_1%2C$width_378%2C$x_84%2C$y_0/t_crop_custom/c_scale%2Cw_620%2Cq_88%2Cf_auto/664a4dc0ba59ae340955d927b87affb9a7bd22c1" alt="Pauline Hanson">
+                        <h3>Pauline Hanson</h3>
+                    </div>
+                </div>
                 <p class="instructions">Can you guess who said these inflammatory statements? Test your knowledge of the controversial quotes from Donald Trump and Pauline Hanson.</p>
                 <button id="startBtn" class="btn btn-primary">Start the quiz</button>
             </div>
@@ -50,10 +62,12 @@
 
                 <div class="options">
                     <button class="option-btn" data-answer="trump">
-                        <span>Donald Trump</span>
+                        <span class="option-text">Donald Trump</span>
+                        <span class="option-icon"></span>
                     </button>
                     <button class="option-btn" data-answer="hanson">
-                        <span>Pauline Hanson</span>
+                        <span class="option-text">Pauline Hanson</span>
+                        <span class="option-icon"></span>
                     </button>
                 </div>
             </div>
