@@ -31,7 +31,7 @@ function startQuiz() {
     currentQuestion = 0;
     score = 0;
     answeredQuestions = 0;
-    quizToPlay = [...quizData]; // Copy quiz data in order
+    quizToPlay = [...quizData]; // Copy quiz data in exact order
     
     showScreen('quiz');
     displayQuestion();
