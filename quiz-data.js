@@ -1,7 +1,7 @@
 // Question Bank - Quiz Data
 const quizData = [
     {
-        quote: "Workers are on their phones, they don't work, they don't turn up, they actually are lazy, and businesses are tied to it. They've had enough.",
+        quote: "Workers are on their phones, they don't work, they don't turn up, they actually are lazy.",
         speaker: "hanson"
     },
     {
@@ -17,11 +17,11 @@ const quizData = [
         speaker: "trump"
     },
     {
-        quote: "Then they started bringing in the different migrants... a lot of people...are purely for the welfare system",
+        quote: "Then they started bringing in the different migrants... a lot of people...are purely for the welfare system.",
         speaker: "hanson"
     },
     {
-        quote: "I believe we are in danger of being swamped by Asians. They have their own culture and religion, form ghettos and do not assimilate.",
+        quote: "When you immigrated... you took every advantage of this country... It's clear you're not happy, so pack your bags and piss off.",
         speaker: "hanson"
     },
     {
@@ -29,11 +29,11 @@ const quizData = [
         speaker: "hanson"
     },
     {
-        quote: "The people that came in, they're eating the cats. They're eating... they're eating the pets of the people that live there.",
+        quote: "They are destroying your Social Security, they are destroying your Medicare, because they are putting them on it. They are putting millions of people onto these programs, and our citizens are going to lose everything they have put in over their entire working lives.",
         speaker: "trump"
     },
     {
-        quote: "There are a lot of women out there who are making fatuous claims and lies against men",
+        quote: "There are a lot of women out there who are making fatuous (fake) claims and lies against men.",
         speaker: "hanson"
     },
     {
@@ -41,13 +41,3 @@ const quizData = [
         speaker: "hanson"
     }
 ];
-
-// Shuffle quiz data function
-function shuffleArray(array) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-}
