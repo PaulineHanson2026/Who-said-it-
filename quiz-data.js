@@ -1,44 +1,44 @@
 // Question Bank - Quiz Data
 const quizData = [
     {
-        quote: "I believe we are in danger of being swamped by Asians.",
+        quote: "Workers are on their phones, they don't work, they don't turn up, they actually are lazy, and businesses are tied to it. They've had enough.",
         speaker: "hanson"
     },
     {
-        quote: "I've never been a fan of facts. You know, you could say anything if nobody ever checked.",
+        quote: "Young people struggling under the economy are lazy and entitled... the affordability crisis is a 'hoax'.",
         speaker: "trump"
     },
     {
-        quote: "The Australian people have given us a mandate.",
+        quote: "Industrial relations, I can assure you, needs a complete overhaul, because it's not working. Businesses also tell me you can't sack people these days.",
         speaker: "hanson"
     },
     {
-        quote: "It's freezing and snowing in New York – we need global warming!",
+        quote: "They come in, and they immediately go on welfare, and they get healthcare, and they get everything.",
         speaker: "trump"
     },
     {
-        quote: "You'll understand when you get to my age that everything is worth doing if it's worth doing.",
+        quote: "Then they started bringing in the different migrants... a lot of people...are purely for the welfare system",
         speaker: "hanson"
     },
     {
-        quote: "Look, having nuclear—my uncle was a great professor and scientist and engineer.",
-        speaker: "trump"
-    },
-    {
-        quote: "I'm not a racist. I don't have a racist bone in my body.",
+        quote: "I believe we are in danger of being swamped by Asians. They have their own culture and religion, form ghettos and do not assimilate.",
         speaker: "hanson"
     },
     {
-        quote: "An 'extremely credible source' has called my office and told me that Barack Hussein Obama's birth certificate is a fraud.",
-        speaker: "trump"
-    },
-    {
-        quote: "We need to look at Queensland. They have opened the flood gates.",
+        quote: "You say, 'Well, there's good Muslims out there.' How can you tell me there are good Muslims?",
         speaker: "hanson"
     },
     {
-        quote: "I have the best words. I have the best, much better than anybody else.",
+        quote: "The people that came in, they're eating the cats. They're eating... they're eating the pets of the people that live there.",
         speaker: "trump"
+    },
+    {
+        quote: "There are a lot of women out there who are making fatuous claims and lies against men",
+        speaker: "hanson"
+    },
+    {
+        quote: "They are bringing in people from South Africa at the moment... a lot of them have disease and AIDS... they will be a burden on our health system.",
+        speaker: "hanson"
     }
 ];
 
