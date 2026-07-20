@@ -239,6 +239,7 @@ body {
     font-size: 1.5em;
     display: none;
     flex-shrink: 0;
+    order: -1;
 }
 
 .option-text {
@@ -252,9 +253,13 @@ body {
     transform: translateY(-2px);
 }
 
+.option-btn.selected {
+    border-color: var(--primary-color);
+    background: rgba(204, 85, 0, 0.15);
+}
+
 .option-btn.correct {
     border-color: var(--success-color);
-    background: rgba(39, 174, 96, 0.15);
 }
 
 .option-btn.correct .option-text {
@@ -269,7 +274,7 @@ body {
 
 .option-btn.incorrect {
     border-color: var(--error-color);
-    background: rgba(231, 76, 60, 0.15);
+    background: rgba(231, 76, 60, 0.25);
 }
 
 .option-btn.incorrect .option-text {

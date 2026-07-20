@@ -105,14 +105,22 @@ function revealAnswer() {
         btn.disabled = true;
         
         if (btn.dataset.answer === correctAnswer) {
-            btn.classList.remove('selected');
-            btn.classList.add('revealed', 'correct');
+            // Correct answer - only show if user was wrong
+            if (userAnswer !== correctAnswer) {
+                btn.classList.remove('selected');
+                btn.classList.add('revealed', 'correct');
+            } else {
+                // User was correct - just show checkmark
+                btn.classList.remove('selected');
+                btn.classList.add('revealed', 'correct');
+            }
             const icon = btn.querySelector('.option-icon');
             if (icon) {
                 icon.innerHTML = '✓';
                 icon.style.display = 'inline';
             }
-        } else {
+        } else if (btn.dataset.answer === userAnswer) {
+            // User's wrong answer - highlight in red
             btn.classList.remove('selected');
             btn.classList.add('revealed', 'incorrect');
             const icon = btn.querySelector('.option-icon');
