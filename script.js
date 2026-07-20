@@ -3,6 +3,7 @@ let currentQuestion = 0;
 let score = 0;
 let answeredQuestions = 0;
 let quizToPlay = [];
+let answerRevealed = false;
 
 // DOM Elements
 const startScreen = document.getElementById('startScreen');
@@ -18,10 +19,12 @@ const finalScore = document.getElementById('finalScore');
 const correctCount = document.getElementById('correctCount');
 const accuracy = document.getElementById('accuracy');
 const resultMessage = document.getElementById('resultMessage');
+const revealBtn = document.getElementById('revealBtn');
 
 // Initialize event listeners
 startBtn.addEventListener('click', startQuiz);
 retakeBtn.addEventListener('click', retakeQuiz);
+revealBtn.addEventListener('click', revealAnswer);
 optionButtons.forEach(btn => {
     btn.addEventListener('click', handleAnswer);
 });
@@ -39,6 +42,11 @@ function startQuiz() {
 
 // Display current question
 function displayQuestion() {
+    answerRevealed = false;
+    revealBtn.style.display = 'block';
+    revealBtn.textContent = 'Reveal Answer';
+    revealBtn.disabled = false;
+    
     if (currentQuestion >= quizToPlay.length) {
         showResults();
         return;
@@ -53,13 +61,49 @@ function displayQuestion() {
     
     // Reset button states
     optionButtons.forEach(btn => {
-        btn.classList.remove('selected', 'correct', 'incorrect');
+        btn.classList.remove('selected', 'correct', 'incorrect', 'revealed');
         btn.disabled = false;
+    });
+}
+
+// Reveal the correct answer
+function revealAnswer() {
+    if (answerRevealed) return;
+    
+    answerRevealed = true;
+    const correctAnswer = quizToPlay[currentQuestion].speaker;
+    
+    // Disable reveal button
+    revealBtn.disabled = true;
+    revealBtn.textContent = 'Answer Revealed';
+    
+    // Show correct answer
+    optionButtons.forEach(btn => {
+        if (btn.dataset.answer === correctAnswer) {
+            btn.classList.add('revealed', 'correct');
+            // Add checkmark
+            const icon = btn.querySelector('.option-icon');
+            if (icon) {
+                icon.innerHTML = '✓';
+                icon.style.display = 'block';
+            }
+        } else {
+            btn.classList.add('revealed', 'incorrect');
+            // Add X mark
+            const icon = btn.querySelector('.option-icon');
+            if (icon) {
+                icon.innerHTML = '✕';
+                icon.style.display = 'block';
+            }
+        }
+        btn.disabled = true;
     });
 }
 
 // Handle answer selection
 function handleAnswer(e) {
+    if (answerRevealed) return;
+    
     const selectedBtn = e.target.closest('.option-btn');
     const selectedAnswer = selectedBtn.dataset.answer;
     const correctAnswer = quizToPlay[currentQuestion].speaker;
@@ -75,19 +119,35 @@ function handleAnswer(e) {
         score++;
         selectedBtn.classList.remove('selected');
         selectedBtn.classList.add('correct');
+        const icon = selectedBtn.querySelector('.option-icon');
+        if (icon) {
+            icon.innerHTML = '✓';
+            icon.style.display = 'block';
+        }
     } else {
         selectedBtn.classList.remove('selected');
         selectedBtn.classList.add('incorrect');
+        const icon = selectedBtn.querySelector('.option-icon');
+        if (icon) {
+            icon.innerHTML = '✕';
+            icon.style.display = 'block';
+        }
         
         // Show correct answer
         optionButtons.forEach(btn => {
             if (btn.dataset.answer === correctAnswer) {
                 btn.classList.add('correct');
+                const correctIcon = btn.querySelector('.option-icon');
+                if (correctIcon) {
+                    correctIcon.innerHTML = '✓';
+                    correctIcon.style.display = 'block';
+                }
             }
         });
     }
     
     answeredQuestions++;
+    revealBtn.style.display = 'none'; // Hide reveal button after answer
     
     // Move to next question after delay
     setTimeout(() => {
