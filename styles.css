@@ -224,26 +224,26 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: 600;
-    text-align: center;
+    text-align: left;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-}
-
-.option-text {
-    flex: 1;
-    transition: color 0.2s ease;
+    gap: 15px;
 }
 
 .option-icon {
     width: 30px;
     height: 30px;
-    margin-left: 15px;
     opacity: 0;
     transition: opacity 0.2s ease;
     font-weight: 700;
     font-size: 1.5em;
     display: none;
+    flex-shrink: 0;
+}
+
+.option-text {
+    flex: 1;
+    transition: color 0.2s ease;
 }
 
 .option-btn:hover:not(:disabled) {
@@ -292,7 +292,7 @@ body {
 
 /* Reveal Button */
 .btn-reveal {
-    display: block;
+    display: none;
     margin: 0 auto;
 }
 

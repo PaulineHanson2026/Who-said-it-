@@ -4,6 +4,7 @@ let score = 0;
 let answeredQuestions = 0;
 let quizToPlay = [];
 let answerRevealed = false;
+let userAnswered = false;
 
 // DOM Elements
 const startScreen = document.getElementById('startScreen');
@@ -43,7 +44,8 @@ function startQuiz() {
 // Display current question
 function displayQuestion() {
     answerRevealed = false;
-    revealBtn.style.display = 'block';
+    userAnswered = false;
+    revealBtn.style.display = 'none'; // Hidden until user answers
     revealBtn.textContent = 'Reveal Answer';
     revealBtn.disabled = false;
     
@@ -85,7 +87,7 @@ function revealAnswer() {
             const icon = btn.querySelector('.option-icon');
             if (icon) {
                 icon.innerHTML = '✓';
-                icon.style.display = 'block';
+                icon.style.display = 'inline';
             }
         } else {
             btn.classList.add('revealed', 'incorrect');
@@ -93,7 +95,7 @@ function revealAnswer() {
             const icon = btn.querySelector('.option-icon');
             if (icon) {
                 icon.innerHTML = '✕';
-                icon.style.display = 'block';
+                icon.style.display = 'inline';
             }
         }
         btn.disabled = true;
@@ -102,35 +104,34 @@ function revealAnswer() {
 
 // Handle answer selection
 function handleAnswer(e) {
-    if (answerRevealed) return;
+    if (userAnswered || answerRevealed) return;
     
+    userAnswered = true;
     const selectedBtn = e.target.closest('.option-btn');
     const selectedAnswer = selectedBtn.dataset.answer;
     const correctAnswer = quizToPlay[currentQuestion].speaker;
     
+    // Show reveal button
+    revealBtn.style.display = 'block';
+    
     // Disable all buttons
     optionButtons.forEach(btn => btn.disabled = true);
-    
-    // Show selected answer
-    selectedBtn.classList.add('selected');
     
     // Check if correct
     if (selectedAnswer === correctAnswer) {
         score++;
-        selectedBtn.classList.remove('selected');
         selectedBtn.classList.add('correct');
         const icon = selectedBtn.querySelector('.option-icon');
         if (icon) {
             icon.innerHTML = '✓';
-            icon.style.display = 'block';
+            icon.style.display = 'inline';
         }
     } else {
-        selectedBtn.classList.remove('selected');
         selectedBtn.classList.add('incorrect');
         const icon = selectedBtn.querySelector('.option-icon');
         if (icon) {
             icon.innerHTML = '✕';
-            icon.style.display = 'block';
+            icon.style.display = 'inline';
         }
         
         // Show correct answer
@@ -140,20 +141,19 @@ function handleAnswer(e) {
                 const correctIcon = btn.querySelector('.option-icon');
                 if (correctIcon) {
                     correctIcon.innerHTML = '✓';
-                    correctIcon.style.display = 'block';
+                    correctIcon.style.display = 'inline';
                 }
             }
         });
     }
     
     answeredQuestions++;
-    revealBtn.style.display = 'none'; // Hide reveal button after answer
     
     // Move to next question after delay
     setTimeout(() => {
         currentQuestion++;
         displayQuestion();
-    }, 1500);
+    }, 2000);
 }
 
 // Show results screen
