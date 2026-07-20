@@ -4,7 +4,7 @@ let score = 0;
 let answeredQuestions = 0;
 let quizToPlay = [];
 let answerRevealed = false;
-let userAnswered = false;
+let userAnswer = null;
 
 // DOM Elements
 const startScreen = document.getElementById('startScreen');
@@ -27,7 +27,7 @@ startBtn.addEventListener('click', startQuiz);
 retakeBtn.addEventListener('click', retakeQuiz);
 revealBtn.addEventListener('click', revealAnswer);
 optionButtons.forEach(btn => {
-    btn.addEventListener('click', handleAnswer);
+    btn.addEventListener('click', selectAnswer);
 });
 
 // Start the quiz
@@ -44,10 +44,10 @@ function startQuiz() {
 // Display current question
 function displayQuestion() {
     answerRevealed = false;
-    userAnswered = false;
-    revealBtn.style.display = 'none'; // Hidden until user answers
-    revealBtn.textContent = 'Reveal Answer';
+    userAnswer = null;
+    revealBtn.style.display = 'none';
     revealBtn.disabled = false;
+    revealBtn.textContent = 'Reveal Answer';
     
     if (currentQuestion >= quizToPlay.length) {
         showResults();
@@ -68,9 +68,30 @@ function displayQuestion() {
     });
 }
 
-// Reveal the correct answer
+// Select answer (user clicks Trump or Pauline)
+function selectAnswer(e) {
+    if (answerRevealed || userAnswer) return;
+    
+    const selectedBtn = e.target.closest('.option-btn');
+    userAnswer = selectedBtn.dataset.answer;
+    
+    // Highlight selected answer
+    selectedBtn.classList.add('selected');
+    
+    // Disable other buttons
+    optionButtons.forEach(btn => {
+        if (btn !== selectedBtn) {
+            btn.disabled = true;
+        }
+    });
+    
+    // Show reveal button
+    revealBtn.style.display = 'block';
+}
+
+// Reveal the answer
 function revealAnswer() {
-    if (answerRevealed) return;
+    if (answerRevealed || !userAnswer) return;
     
     answerRevealed = true;
     const correctAnswer = quizToPlay[currentQuestion].speaker;
@@ -79,72 +100,32 @@ function revealAnswer() {
     revealBtn.disabled = true;
     revealBtn.textContent = 'Answer Revealed';
     
-    // Show correct answer
+    // Show results for all buttons
     optionButtons.forEach(btn => {
+        btn.disabled = true;
+        
         if (btn.dataset.answer === correctAnswer) {
+            btn.classList.remove('selected');
             btn.classList.add('revealed', 'correct');
-            // Add checkmark
             const icon = btn.querySelector('.option-icon');
             if (icon) {
                 icon.innerHTML = '✓';
                 icon.style.display = 'inline';
             }
         } else {
+            btn.classList.remove('selected');
             btn.classList.add('revealed', 'incorrect');
-            // Add X mark
             const icon = btn.querySelector('.option-icon');
             if (icon) {
                 icon.innerHTML = '✕';
                 icon.style.display = 'inline';
             }
         }
-        btn.disabled = true;
     });
-}
-
-// Handle answer selection
-function handleAnswer(e) {
-    if (userAnswered || answerRevealed) return;
     
-    userAnswered = true;
-    const selectedBtn = e.target.closest('.option-btn');
-    const selectedAnswer = selectedBtn.dataset.answer;
-    const correctAnswer = quizToPlay[currentQuestion].speaker;
-    
-    // Show reveal button
-    revealBtn.style.display = 'block';
-    
-    // Disable all buttons
-    optionButtons.forEach(btn => btn.disabled = true);
-    
-    // Check if correct
-    if (selectedAnswer === correctAnswer) {
+    // Update score if user was correct
+    if (userAnswer === correctAnswer) {
         score++;
-        selectedBtn.classList.add('correct');
-        const icon = selectedBtn.querySelector('.option-icon');
-        if (icon) {
-            icon.innerHTML = '✓';
-            icon.style.display = 'inline';
-        }
-    } else {
-        selectedBtn.classList.add('incorrect');
-        const icon = selectedBtn.querySelector('.option-icon');
-        if (icon) {
-            icon.innerHTML = '✕';
-            icon.style.display = 'inline';
-        }
-        
-        // Show correct answer
-        optionButtons.forEach(btn => {
-            if (btn.dataset.answer === correctAnswer) {
-                btn.classList.add('correct');
-                const correctIcon = btn.querySelector('.option-icon');
-                if (correctIcon) {
-                    correctIcon.innerHTML = '✓';
-                    correctIcon.style.display = 'inline';
-                }
-            }
-        });
     }
     
     answeredQuestions++;
@@ -153,7 +134,7 @@ function handleAnswer(e) {
     setTimeout(() => {
         currentQuestion++;
         displayQuestion();
-    }, 2000);
+    }, 2500);
 }
 
 // Show results screen
