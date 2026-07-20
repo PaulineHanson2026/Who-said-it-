@@ -29,7 +29,7 @@ const quizData = [
         speaker: "hanson"
     },
     {
-        quote: "They are destroying your Social Security, they are destroying your Medicare, because they are putting them on it. They are putting millions of people onto these programs, and our citizens are going to lose everything they have put in over their entire working lives.",
+        quote: "(Talking about immigrants) They are destroying your social security and they are destroying your Medicare. They are putting millions of people onto these programs, and our citizens are going to lose everything.",
         speaker: "trump"
     },
     {
