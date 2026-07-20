@@ -1,0 +1,15 @@
+# Image files (you'll add your own)
+# img/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log

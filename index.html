@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Said It? - Pauline Hanson vs Donald Trump</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Title Section -->
+        <div class="header">
+            <h1>Who Said It?</h1>
+            <p class="subtitle">Pauline Hanson vs Donald Trump</p>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen active">
+            <div class="speaker-comparison">
+                <div class="speaker">
+                    <img src="img/pauline-hanson.jpg" alt="Pauline Hanson" class="speaker-image">
+                    <h2>Pauline Hanson</h2>
+                    <p>Australian politician & One Nation founder</p>
+                </div>
+                <div class="vs">VS</div>
+                <div class="speaker">
+                    <img src="img/donald-trump.jpg" alt="Donald Trump" class="speaker-image">
+                    <h2>Donald Trump</h2>
+                    <p>Former US President</p>
+                </div>
+            </div>
+            <div class="start-content">
+                <p class="instructions">Can you tell who said what? Test your knowledge of their quotes!</p>
+                <button id="startBtn" class="btn btn-primary">Start Quiz</button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quizScreen" class="screen">
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <div class="question-counter">Question <span id="questionNumber">1</span> of <span id="totalQuestions">10</span></div>
+
+            <div class="quiz-content">
+                <p id="quoteText" class="quote"></p>
+
+                <div class="options">
+                    <button class="option-btn" data-answer="hanson">
+                        <img src="img/pauline-hanson.jpg" alt="Pauline Hanson" class="option-image">
+                        <span>Pauline Hanson</span>
+                    </button>
+                    <button class="option-btn" data-answer="trump">
+                        <img src="img/donald-trump.jpg" alt="Donald Trump" class="option-image">
+                        <span>Donald Trump</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen">
+            <div class="results-content">
+                <h2>Quiz Complete!</h2>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="finalScore">0</span>
+                        <p>/ 10</p>
+                    </div>
+                </div>
+                <p id="resultMessage" class="result-message"></p>
+                <div class="score-breakdown">
+                    <div class="breakdown-item">
+                        <span>Correct:</span>
+                        <strong id="correctCount">0</strong>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Incorrect:</span>
+                        <strong id="incorrectCount">0</strong>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Accuracy:</span>
+                        <strong id="accuracy">0%</strong>
+                    </div>
+                </div>
+                <button id="retakeBtn" class="btn btn-primary">Retake Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="quiz-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
