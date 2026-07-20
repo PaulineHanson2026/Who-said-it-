@@ -1,154 +1,137 @@
-// Quiz Application Logic
+// Quiz state
+let currentQuestion = 0;
+let score = 0;
+let answeredQuestions = 0;
+let shuffledQuiz = [];
 
-class QuizApp {
-    constructor() {
-        this.currentQuestion = 0;
-        this.score = 0;
-        this.answers = [];
-        this.shuffledQuestions = [];
-        this.quizInProgress = false;
+// DOM Elements
+const startScreen = document.getElementById('startScreen');
+const quizScreen = document.getElementById('quizScreen');
+const resultsScreen = document.getElementById('resultsScreen');
+const startBtn = document.getElementById('startBtn');
+const retakeBtn = document.getElementById('retakeBtn');
+const quoteText = document.getElementById('quoteText');
+const optionButtons = document.querySelectorAll('.option-btn');
+const questionNumber = document.getElementById('questionNumber');
+const progressFill = document.getElementById('progressFill');
+const finalScore = document.getElementById('finalScore');
+const correctCount = document.getElementById('correctCount');
+const accuracy = document.getElementById('accuracy');
+const resultMessage = document.getElementById('resultMessage');
 
-        // DOM Elements
-        this.startScreen = document.getElementById('startScreen');
-        this.quizScreen = document.getElementById('quizScreen');
-        this.resultsScreen = document.getElementById('resultsScreen');
-        this.startBtn = document.getElementById('startBtn');
-        this.retakeBtn = document.getElementById('retakeBtn');
-        this.optionBtns = document.querySelectorAll('.option-btn');
-        this.quoteText = document.getElementById('quoteText');
-        this.questionNumber = document.getElementById('questionNumber');
-        this.progressFill = document.getElementById('progressFill');
+// Initialize event listeners
+startBtn.addEventListener('click', startQuiz);
+retakeBtn.addEventListener('click', retakeQuiz);
+optionButtons.forEach(btn => {
+    btn.addEventListener('click', handleAnswer);
+});
 
-        // Event Listeners
-        this.startBtn.addEventListener('click', () => this.startQuiz());
-        this.retakeBtn.addEventListener('click', () => this.startQuiz());
-        this.optionBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => this.selectAnswer(e.currentTarget));
-        });
+// Start the quiz
+function startQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    answeredQuestions = 0;
+    shuffledQuiz = shuffleArray(quizData);
+    
+    showScreen('quiz');
+    displayQuestion();
+}
+
+// Display current question
+function displayQuestion() {
+    if (currentQuestion >= shuffledQuiz.length) {
+        showResults();
+        return;
     }
+    
+    const question = shuffledQuiz[currentQuestion];
+    quoteText.textContent = question.quote;
+    
+    // Update progress
+    questionNumber.textContent = currentQuestion + 1;
+    progressFill.style.width = ((currentQuestion + 1) / shuffledQuiz.length) * 100 + '%';
+    
+    // Reset button states
+    optionButtons.forEach(btn => {
+        btn.classList.remove('selected', 'correct', 'incorrect');
+        btn.disabled = false;
+    });
+}
 
-    startQuiz() {
-        this.currentQuestion = 0;
-        this.score = 0;
-        this.answers = [];
-        this.shuffledQuestions = shuffleArray(quizData);
-        this.quizInProgress = true;
-
-        this.hideAllScreens();
-        this.showScreen(this.quizScreen);
-        this.loadQuestion();
-    }
-
-    loadQuestion() {
-        if (this.currentQuestion >= this.shuffledQuestions.length) {
-            this.endQuiz();
-            return;
-        }
-
-        const question = this.shuffledQuestions[this.currentQuestion];
-        this.quoteText.textContent = `"${question.quote}"`;
-        this.questionNumber.textContent = this.currentQuestion + 1;
-
-        // Update progress bar
-        const progress = ((this.currentQuestion) / this.shuffledQuestions.length) * 100;
-        this.progressFill.style.width = progress + '%';
-
-        // Reset button states
-        this.optionBtns.forEach(btn => {
-            btn.classList.remove('selected', 'correct', 'incorrect');
-            btn.disabled = false;
-        });
-    }
-
-    selectAnswer(button) {
-        if (!this.quizInProgress) return;
-
-        const selectedAnswer = button.getAttribute('data-answer');
-        const correctAnswer = this.shuffledQuestions[this.currentQuestion].speaker;
-        const isCorrect = selectedAnswer === correctAnswer;
-
-        // Store answer
-        this.answers.push({
-            question: this.shuffledQuestions[this.currentQuestion].quote,
-            userAnswer: selectedAnswer,
-            correctAnswer: correctAnswer,
-            isCorrect: isCorrect
-        });
-
-        // Update score
-        if (isCorrect) {
-            this.score++;
-        }
-
-        // Mark buttons
-        this.optionBtns.forEach(btn => {
-            btn.disabled = true;
-            const btnAnswer = btn.getAttribute('data-answer');
-
-            if (btnAnswer === correctAnswer) {
+// Handle answer selection
+function handleAnswer(e) {
+    const selectedBtn = e.target.closest('.option-btn');
+    const selectedAnswer = selectedBtn.dataset.answer;
+    const correctAnswer = shuffledQuiz[currentQuestion].speaker;
+    
+    // Disable all buttons
+    optionButtons.forEach(btn => btn.disabled = true);
+    
+    // Show selected answer
+    selectedBtn.classList.add('selected');
+    
+    // Check if correct
+    if (selectedAnswer === correctAnswer) {
+        score++;
+        selectedBtn.classList.remove('selected');
+        selectedBtn.classList.add('correct');
+    } else {
+        selectedBtn.classList.remove('selected');
+        selectedBtn.classList.add('incorrect');
+        
+        // Show correct answer
+        optionButtons.forEach(btn => {
+            if (btn.dataset.answer === correctAnswer) {
                 btn.classList.add('correct');
-            } else if (btnAnswer === selectedAnswer && !isCorrect) {
-                btn.classList.add('incorrect');
             }
         });
-
-        button.classList.add('selected');
-
-        // Move to next question after delay
-        setTimeout(() => {
-            this.currentQuestion++;
-            this.loadQuestion();
-        }, 1500);
     }
+    
+    answeredQuestions++;
+    
+    // Move to next question after delay
+    setTimeout(() => {
+        currentQuestion++;
+        displayQuestion();
+    }, 1500);
+}
 
-    endQuiz() {
-        this.quizInProgress = false;
-        this.hideAllScreens();
-        this.showScreen(this.resultsScreen);
-        this.displayResults();
-    }
-
-    displayResults() {
-        const finalScore = document.getElementById('finalScore');
-        const resultMessage = document.getElementById('resultMessage');
-        const correctCount = document.getElementById('correctCount');
-        const incorrectCount = document.getElementById('incorrectCount');
-        const accuracy = document.getElementById('accuracy');
-
-        const incorrect = this.shuffledQuestions.length - this.score;
-        const accuracyPercent = Math.round((this.score / this.shuffledQuestions.length) * 100);
-
-        finalScore.textContent = this.score;
-        correctCount.textContent = this.score;
-        incorrectCount.textContent = incorrect;
-        accuracy.textContent = accuracyPercent + '%';
-
-        // Determine result message based on score
-        if (this.score === this.shuffledQuestions.length) {
-            resultMessage.textContent = "Perfect! You're a political quote expert!";
-        } else if (this.score >= 8) {
-            resultMessage.textContent = "Excellent! You know your quotes well!";
-        } else if (this.score >= 6) {
-            resultMessage.textContent = "Good job! You got most of them right!";
-        } else if (this.score >= 4) {
-            resultMessage.textContent = "Not bad! You know some of their quotes!";
-        } else {
-            resultMessage.textContent = "Better luck next time! Try again?";
-        }
-    }
-
-    hideAllScreens() {
-        this.startScreen.classList.remove('active');
-        this.quizScreen.classList.remove('active');
-        this.resultsScreen.classList.remove('active');
-    }
-
-    showScreen(screen) {
-        screen.classList.add('active');
+// Show results screen
+function showResults() {
+    showScreen('results');
+    
+    const percentage = Math.round((score / shuffledQuiz.length) * 100);
+    
+    finalScore.textContent = score;
+    correctCount.textContent = score;
+    accuracy.textContent = percentage + '%';
+    
+    // Custom result message
+    if (percentage === 100) {
+        resultMessage.textContent = "Perfect score! You know their controversial statements well!";
+    } else if (percentage >= 80) {
+        resultMessage.textContent = "Excellent! You're very familiar with their quotes.";
+    } else if (percentage >= 60) {
+        resultMessage.textContent = "Good! You got most of them right.";
+    } else if (percentage >= 40) {
+        resultMessage.textContent = "Not bad! You got about half right.";
+    } else {
+        resultMessage.textContent = "Better luck next time!";
     }
 }
 
-// Initialize quiz when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new QuizApp();
-});
+// Retake the quiz
+function retakeQuiz() {
+    startQuiz();
+}
+
+// Show/hide screens
+function showScreen(screenName) {
+    startScreen.classList.remove('active');
+    quizScreen.classList.remove('active');
+    resultsScreen.classList.remove('active');
+    
+    if (screenName === 'start') startScreen.classList.add('active');
+    if (screenName === 'quiz') quizScreen.classList.add('active');
+    if (screenName === 'results') resultsScreen.classList.add('active');
+}
