@@ -2,7 +2,7 @@
 let currentQuestion = 0;
 let score = 0;
 let answeredQuestions = 0;
-let shuffledQuiz = [];
+let quizToPlay = [];
 
 // DOM Elements
 const startScreen = document.getElementById('startScreen');
@@ -31,7 +31,7 @@ function startQuiz() {
     currentQuestion = 0;
     score = 0;
     answeredQuestions = 0;
-    shuffledQuiz = shuffleArray(quizData);
+    quizToPlay = [...quizData]; // Copy quiz data in order
     
     showScreen('quiz');
     displayQuestion();
@@ -39,17 +39,17 @@ function startQuiz() {
 
 // Display current question
 function displayQuestion() {
-    if (currentQuestion >= shuffledQuiz.length) {
+    if (currentQuestion >= quizToPlay.length) {
         showResults();
         return;
     }
     
-    const question = shuffledQuiz[currentQuestion];
+    const question = quizToPlay[currentQuestion];
     quoteText.textContent = question.quote;
     
     // Update progress
     questionNumber.textContent = currentQuestion + 1;
-    progressFill.style.width = ((currentQuestion + 1) / shuffledQuiz.length) * 100 + '%';
+    progressFill.style.width = ((currentQuestion + 1) / quizToPlay.length) * 100 + '%';
     
     // Reset button states
     optionButtons.forEach(btn => {
@@ -62,7 +62,7 @@ function displayQuestion() {
 function handleAnswer(e) {
     const selectedBtn = e.target.closest('.option-btn');
     const selectedAnswer = selectedBtn.dataset.answer;
-    const correctAnswer = shuffledQuiz[currentQuestion].speaker;
+    const correctAnswer = quizToPlay[currentQuestion].speaker;
     
     // Disable all buttons
     optionButtons.forEach(btn => btn.disabled = true);
@@ -100,7 +100,7 @@ function handleAnswer(e) {
 function showResults() {
     showScreen('results');
     
-    const percentage = Math.round((score / shuffledQuiz.length) * 100);
+    const percentage = Math.round((score / quizToPlay.length) * 100);
     
     finalScore.textContent = score;
     correctCount.textContent = score;
