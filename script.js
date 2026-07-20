@@ -95,6 +95,7 @@ function revealAnswer() {
     
     answerRevealed = true;
     const correctAnswer = quizToPlay[currentQuestion].speaker;
+    const isCorrect = userAnswer === correctAnswer;
     
     // Disable reveal button
     revealBtn.disabled = true;
@@ -105,22 +106,16 @@ function revealAnswer() {
         btn.disabled = true;
         
         if (btn.dataset.answer === correctAnswer) {
-            // Correct answer - only show if user was wrong
-            if (userAnswer !== correctAnswer) {
-                btn.classList.remove('selected');
-                btn.classList.add('revealed', 'correct');
-            } else {
-                // User was correct - just show checkmark
-                btn.classList.remove('selected');
-                btn.classList.add('revealed', 'correct');
-            }
+            // This is the correct answer
+            btn.classList.remove('selected');
+            btn.classList.add('revealed', 'correct');
             const icon = btn.querySelector('.option-icon');
             if (icon) {
                 icon.innerHTML = '✓';
                 icon.style.display = 'inline';
             }
-        } else if (btn.dataset.answer === userAnswer) {
-            // User's wrong answer - highlight in red
+        } else if (btn.dataset.answer === userAnswer && !isCorrect) {
+            // User's wrong answer - only highlight if they got it wrong
             btn.classList.remove('selected');
             btn.classList.add('revealed', 'incorrect');
             const icon = btn.querySelector('.option-icon');
@@ -132,7 +127,7 @@ function revealAnswer() {
     });
     
     // Update score if user was correct
-    if (userAnswer === correctAnswer) {
+    if (isCorrect) {
         score++;
     }
     
