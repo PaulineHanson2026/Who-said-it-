@@ -9,7 +9,7 @@ const quizData = [
         speaker: "trump"
     },
     {
-        quote: "Industrial relations, I can assure you, needs a complete overhaul, because it's not working. Businesses also tell me you can't sack people these days.",
+        quote: "(On nurse unions wanting pay rises) They want more money for less work... They want massive pay rises but they don't want to look at the productivity or the efficiency of the hospitals themselves.",
         speaker: "hanson"
     },
     {
