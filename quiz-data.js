@@ -9,7 +9,7 @@ const quizData = [
         speaker: "trump"
     },
     {
-        quote: "(On nurse unions wanting pay rises) They want more money for less work... They want massive pay rises but they don't want to look at the productivity or the efficiency of the hospitals themselves.",
+        quote: "(On nurses wanting pay rises) They want more money for less work... They want massive pay rises but they don't want to look at the productivity or the efficiency of the hospitals themselves.",
         speaker: "hanson"
     },
     {
